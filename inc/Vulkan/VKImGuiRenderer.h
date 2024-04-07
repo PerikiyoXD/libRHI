@@ -4,7 +4,7 @@
 
 #include "FrameBuffer.h"
 #include "RenderPass.h"
-#include "Vulkan/VkCommon.h"
+#include "VkCommon.h"
 
 struct ImGui_ImplVulkanH_Window;
 
