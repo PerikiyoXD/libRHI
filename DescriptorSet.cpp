@@ -54,6 +54,7 @@ namespace maple
 #ifdef MAPLE_OPENGL
 		return nullptr;
 #endif
+		return nullptr; // Default return when neither MAPLE_VULKAN nor MAPLE_OPENGL is defined
 	}
 
 }        // namespace maple

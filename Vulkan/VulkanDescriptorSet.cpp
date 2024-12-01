@@ -618,7 +618,7 @@ namespace maple
 			iter->second.hasUpdated[2] = true;
 			return;
 		}
-		LOGW("Uniform not found {0}.{1}", bufferName);
+		LOGW("Uniform not found {0}", bufferName);
 	}
 
 	auto VulkanDescriptorSet::setStorageBuffer(const std::string& name, std::shared_ptr<StorageBuffer> buffer) -> void

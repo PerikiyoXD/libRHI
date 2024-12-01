@@ -46,7 +46,7 @@ namespace maple
 			case VK_FORMAT_R16G16B16A16_SFLOAT:
 				return sizeof(float) * 2;
 			default:
-				LOGE("Unsupported Vulkan Format {0} , {1} : {2}", format, __FUNCTION__, __LINE__);
+				LOGE("Unsupported Vulkan Format {} , {} : {}", static_cast<int>(format), __FUNCTION__, __LINE__);
 				return 0;
 			}
 			return 0;
@@ -94,7 +94,7 @@ namespace maple
 			case spirv_cross::SPIRType::Double:
 				return doubleTypes[type.vecsize - 1];
 			default:
-				LOGC("Cannot find VK_Format : {0}", type.basetype);
+				LOGC("Cannot find VK_Format : {} , defaulting to VK_FORMAT_R32G32B32A32_SFLOAT", static_cast<int>(type.basetype));
 				return VK_FORMAT_R32G32B32A32_SFLOAT;
 			}
 		}

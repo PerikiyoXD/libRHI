@@ -1,30 +1,56 @@
 //////////////////////////////////////////////////////////////////////////////
-// This file is part of the Maple Engine                              		//
+// This file is part of the Maple Engine //
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Shader.h"
 #include "Console.h"
 #include "Definitions.h"
 #include "StringUtils.h"
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/fmt.h>
+#include <spirv_cross/spirv.hpp>
 #include <spirv_cross/spirv_cross.hpp>
+
+namespace fmt {
+	template <>
+	struct formatter<spv::ImageFormat> : formatter<std::string> {
+		auto format(spv::ImageFormat format, format_context& ctx) {
+			std::string name;
+			switch (format) {
+				case spv::ImageFormatRgba32f: name = "Rgba32f"; break;
+				case spv::ImageFormatRgba16f: name = "Rgba16f"; break;
+				case spv::ImageFormatRgba8: name = "Rgba8"; break;
+				case spv::ImageFormatR32i: name = "R32i"; break;
+				case spv::ImageFormatR32f: name = "R32f"; break;
+				case spv::ImageFormatR32ui: name = "R32ui"; break;
+				case spv::ImageFormatR8: name = "R8"; break;
+				case spv::ImageFormatRg16f: name = "Rg16f"; break;
+				case spv::ImageFormatR16f: name = "R16f"; break;
+				case spv::ImageFormatR11fG11fB10f: name = "R11fG11fB10f"; break;
+				default: name = "Unknown"; break;
+			}
+			return formatter<std::string>::format(name, ctx);
+		}
+	};
+}
 
 namespace maple
 {
 	namespace
 	{
-		inline auto getShaderTypeByName(const std::string &name) -> ShaderType
+        inline auto getShaderTypeByName(const std::string& name) -> ShaderType
 		{
-			const std::unordered_map<std::string, ShaderType> types =
-			    {
-			        {"Vertex", ShaderType::Vertex},
-			        {"Fragment", ShaderType::Fragment},
-			        {"Geometry", ShaderType::Geometry},
-			        {"Compute", ShaderType::Compute},
-			        {"RayMiss", ShaderType::RayMiss},
-			        {"RayCloseHit", ShaderType::RayCloseHit},
-			        {"RayAnyHit", ShaderType::RayAnyHit},
-			        {"RayGen", ShaderType::RayGen},
-			        {"RayIntersect", ShaderType::RayIntersect}};
+            const std::unordered_map<std::string, ShaderType> types = {
+                { "Vertex", ShaderType::Vertex },
+                { "Fragment", ShaderType::Fragment },
+                { "Geometry", ShaderType::Geometry },
+                { "Compute", ShaderType::Compute },
+                { "RayMiss", ShaderType::RayMiss },
+                { "RayCloseHit", ShaderType::RayCloseHit },
+                { "RayAnyHit", ShaderType::RayAnyHit },
+                { "RayGen", ShaderType::RayGen },
+                { "RayIntersect", ShaderType::RayIntersect }
+            };
 
 			if (auto iter = types.find(name); iter != types.end())
 				return iter->second;
@@ -32,7 +58,7 @@ namespace maple
 			MAPLE_ASSERT(false, "Unknow shader type");
 			return ShaderType::Unknown;
 		}
-	}        // namespace
+    } // namespace
 
 	auto Shader::spirvTypeToDataType(const spirv_cross::SPIRType &type, uint32_t size) -> ShaderDataType
 	{
@@ -105,11 +131,13 @@ namespace maple
 				return TextureFormat::R11G11B10;
 		}
 
-		LOGE("spv::ImageFormat : {}",format);
+		LOGE("Unsupported spv::ImageFormat {0}", format);
 		MAPLE_ASSERT(false, "unsupported spv::ImageFormat");
 	}
 
-	auto Shader::parseSource(const std::vector<std::string> &lines, std::unordered_multimap<ShaderType, std::string> &shaders) -> void
+    auto Shader::parseSource(
+        const std::vector<std::string>&                   lines,
+        std::unordered_multimap<ShaderType, std::string>& shaders) -> void
 	{
 		for (uint32_t i = 0; i < lines.size(); i++)
 		{
@@ -128,4 +156,4 @@ namespace maple
 		}
 	}
 
-}        // namespace maple
+} // namespace maple

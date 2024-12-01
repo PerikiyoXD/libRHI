@@ -2,10 +2,8 @@
 // This file is part of the Maple Engine                              		//
 //////////////////////////////////////////////////////////////////////////////
 #pragma once
-#include "BufferLayout.h"
 #include "Definitions.h"
 #include "Shader.h"
-#include <array>
 #include <memory>
 
 namespace maple

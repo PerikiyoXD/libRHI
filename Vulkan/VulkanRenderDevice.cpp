@@ -304,7 +304,7 @@ namespace maple
 			{
 				auto vkTexture = (VulkanTextureDepth*)texture.get();
 
-				VkClearDepthStencilValue clearDepthStencil = { clearColor[0], 0 };
+				VkClearDepthStencilValue clearDepthStencil = { static_cast<float>(clearColor[0]), 0 };
 				subresourceRange.aspectMask = VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT;
 				vkTexture->transitionImage(VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, (const VulkanCommandBuffer*)commandBuffer);
 				vkCmdClearDepthStencilImage(((const VulkanCommandBuffer*)commandBuffer)->getCommandBuffer(), vkTexture->getImage(), VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, &clearDepthStencil, 1, &subresourceRange);

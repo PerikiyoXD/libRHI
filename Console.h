@@ -3,10 +3,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include <iostream>
 #include <spdlog/spdlog.h>
 #include <stdarg.h>
-#include <string>
 struct lua_State;
 
 namespace maple

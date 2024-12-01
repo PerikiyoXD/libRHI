@@ -3,7 +3,8 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "ShaderCompiler.h"
-#include "glslang/SPIRV/GlslangToSpv.h"
+#include <glslang/Public/ShaderLang.h>
+#include <glslang/SPIRV/GlslangToSpv.h>
 #include "Console.h"
 
 namespace maple
